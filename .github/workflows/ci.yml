@@ -36,7 +36,7 @@ jobs:
           brew install openssl secp256k1 curl cmake
 
       - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
 
       - name: Build
         run: cmake --build build --parallel
