@@ -201,48 +201,48 @@ int main() {
         std::cout << "\nORDER POSTED!" << std::endl;
         std::cout << "Order ID: " << resp.order_id << std::endl;
         std::cout << "Success: " << (resp.success ? "YES" : "NO") << std::endl;
-        std::cout << "Status: ";
-        switch (resp.status) {
+            std::cout << "Status: ";
+            switch (resp.status) {
             case clob::OrderStatusType::LIVE: std::cout << "LIVE"; break;
             case clob::OrderStatusType::MATCHED: std::cout << "MATCHED"; break;
             case clob::OrderStatusType::DELAYED: std::cout << "DELAYED"; break;
-            default: std::cout << "OTHER"; break;
-        }
-        std::cout << std::endl;
-        
-        if (resp.error_msg.has_value()) {
-            std::cout << "Error: " << *resp.error_msg << std::endl;
-        }
-        
+                default: std::cout << "OTHER"; break;
+            }
+            std::cout << std::endl;
+            
+            if (resp.error_msg.has_value()) {
+                std::cout << "Error: " << *resp.error_msg << std::endl;
+            }
+            
         // ========== STEP 10: Verify and Cancel ==========
         if (resp.success && !resp.order_id.empty()) {
-            std::cout << "\n=== Verifying Order ===" << std::endl;
-            auto order_details = client.get_order(resp.order_id);
+                std::cout << "\n=== Verifying Order ===" << std::endl;
+                auto order_details = client.get_order(resp.order_id);
             std::cout << "Order confirmed in system:" << std::endl;
-            std::cout << "  Price: $" << order_details.price << std::endl;
-            std::cout << "  Size: " << order_details.original_size << " shares" << std::endl;
-            std::cout << "  Matched: " << order_details.size_matched << " shares" << std::endl;
-            
-            std::cout << "\n=== Cancel Order? ===" << std::endl;
-            std::cout << "Cancel order " << resp.order_id << "? (y/N): ";
-            std::string cancel_choice;
-            std::getline(std::cin, cancel_choice);
-            
-            if (cancel_choice == "y" || cancel_choice == "Y") {
-                std::cout << "Canceling..." << std::endl;
-                auto cancel_resp = client.cancel(resp.order_id);
+                std::cout << "  Price: $" << order_details.price << std::endl;
+                std::cout << "  Size: " << order_details.original_size << " shares" << std::endl;
+                std::cout << "  Matched: " << order_details.size_matched << " shares" << std::endl;
                 
-                if (!cancel_resp.canceled.empty()) {
+                std::cout << "\n=== Cancel Order? ===" << std::endl;
+                std::cout << "Cancel order " << resp.order_id << "? (y/N): ";
+                std::string cancel_choice;
+                std::getline(std::cin, cancel_choice);
+                
+                if (cancel_choice == "y" || cancel_choice == "Y") {
+                    std::cout << "Canceling..." << std::endl;
+                    auto cancel_resp = client.cancel(resp.order_id);
+                    
+                    if (!cancel_resp.canceled.empty()) {
                     std::cout << "Order CANCELED successfully!" << std::endl;
-                } else if (!cancel_resp.not_canceled.empty()) {
+                    } else if (!cancel_resp.not_canceled.empty()) {
                     std::cout << "Could not cancel:" << std::endl;
-                    for (const auto& [id, reason] : cancel_resp.not_canceled) {
-                        std::cout << "  " << reason << std::endl;
+                        for (const auto& [id, reason] : cancel_resp.not_canceled) {
+                            std::cout << "  " << reason << std::endl;
+                        }
                     }
-                }
-            } else {
-                std::cout << "Order left open. Cancel manually at:" << std::endl;
-                std::cout << "  https://polymarket.com/activity" << std::endl;
+                } else {
+                    std::cout << "Order left open. Cancel manually at:" << std::endl;
+                    std::cout << "  https://polymarket.com/activity" << std::endl;
             }
         }
         

@@ -1,6 +1,5 @@
 #include "clob/eip712.hpp"
-#include <openssl/evp.h>
-#include <openssl/sha.h>
+#include "clob/keccak.hpp"
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
@@ -10,45 +9,9 @@
 namespace clob {
 namespace eip712 {
 
-// Keccak-256 implementation using OpenSSL
+// Keccak-256 using bundled implementation (works on all platforms)
 std::array<uint8_t, 32> keccak256(const std::vector<uint8_t>& data) {
-    std::array<uint8_t, 32> result;
-    
-    // OpenSSL 3.0+ has Keccak support
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) {
-        throw std::runtime_error("Failed to create EVP_MD_CTX");
-    }
-    
-    const EVP_MD* md = EVP_MD_fetch(nullptr, "KECCAK-256", nullptr);
-    if (!md) {
-        EVP_MD_CTX_free(ctx);
-        throw std::runtime_error("KECCAK-256 not available in OpenSSL");
-    }
-    
-    if (EVP_DigestInit_ex(ctx, md, nullptr) != 1) {
-        EVP_MD_free(const_cast<EVP_MD*>(md));
-        EVP_MD_CTX_free(ctx);
-        throw std::runtime_error("Failed to initialize Keccak-256");
-    }
-    
-    if (EVP_DigestUpdate(ctx, data.data(), data.size()) != 1) {
-        EVP_MD_free(const_cast<EVP_MD*>(md));
-        EVP_MD_CTX_free(ctx);
-        throw std::runtime_error("Failed to update Keccak-256");
-    }
-    
-    unsigned int len = 32;
-    if (EVP_DigestFinal_ex(ctx, result.data(), &len) != 1) {
-        EVP_MD_free(const_cast<EVP_MD*>(md));
-        EVP_MD_CTX_free(ctx);
-        throw std::runtime_error("Failed to finalize Keccak-256");
-    }
-    
-    EVP_MD_free(const_cast<EVP_MD*>(md));
-    EVP_MD_CTX_free(ctx);
-    
-    return result;
+    return keccak::hash256(data);
 }
 
 std::vector<uint8_t> hex_to_bytes(const std::string& hex) {

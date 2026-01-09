@@ -79,7 +79,7 @@ int main() {
             std::cout << "Token ID: " << token_id << std::endl;
             
             try {
-                auto orderbook = client.get_order_book(token_id);
+        auto orderbook = client.get_order_book(token_id);
                 std::cout << "Orderbook:" << std::endl;
                 std::cout << "   Asset ID: " << orderbook.asset_id << std::endl;
                 std::cout << "   Market: " << orderbook.market << std::endl;
