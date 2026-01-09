@@ -113,8 +113,8 @@ void HttpClient::init_client() {
         ssl_client_->set_read_timeout(10);       // 10 seconds
         ssl_client_->set_write_timeout(10);      // 10 seconds
         
-        // 3. Disable SSL verification for testing (enable for production!)
-        ssl_client_->enable_server_certificate_verification(false);
+        // 3. Enable SSL certificate verification for security
+        ssl_client_->enable_server_certificate_verification(true);
         
         // 4. Set follow redirects
         ssl_client_->set_follow_location(true);

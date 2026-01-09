@@ -54,7 +54,7 @@ sudo apt-get install libssl-dev libsecp256k1-dev libcurl4-openssl-dev cmake
 ### Building
 
 ```bash
-git clone https://github.com/polymarket/cpp-clob-client
+git clone https://github.com/gnarayan1337/cpp-clob-client
 cd cpp-clob-client
 mkdir build && cd build
 cmake ..
