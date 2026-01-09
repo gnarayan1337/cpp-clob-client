@@ -1,0 +1,67 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# Compiled objects
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.out
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.cmake
+!CMakeLists.txt
+
+# Testing
+Testing/
+CPackConfig.cmake
+CPackSourceConfig.cmake
+DartConfiguration.tcl
+
+# Libraries (built)
+lib/
+bin/
+
+# macOS
+.DS_Store
+._*
+
+# Linux
+*.log
+
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.secret
+private_key*
+credentials*
+
+# Coverage
+*.gcov
+*.gcda
+*.gcno
+lcov.info
+coverage/
