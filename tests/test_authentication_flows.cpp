@@ -145,7 +145,7 @@ TEST(AuthenticationTest, InvalidPrivateKeyShouldFail) {
     // Test: Invalid private key should throw
     EXPECT_THROW({
         auto signer = std::make_shared<Signer>("invalid-key", POLYGON);
-    }, std::runtime_error);
+    }, std::exception);  // Can throw runtime_error or invalid_argument
 }
 
 TEST(AuthenticationTest, L1MethodWithoutSignerShouldFail) {
